@@ -22,5 +22,6 @@ go.work
 
 
 # Additions
-.vscode
+.vscode/
 go-rssAgg
+.env
