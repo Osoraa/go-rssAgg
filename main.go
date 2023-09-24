@@ -12,6 +12,7 @@ import (
 
 func main() {
 
+	// Load variables from .env file
 	godotenv.Load()
 
 	portNum := os.Getenv("PORT")
@@ -19,6 +20,7 @@ func main() {
 		log.Fatal("PORT not found in your enironment")
 	}
 
+	// Create a router, server, and then listen
 	router := chi.NewRouter()
 
 	srv := &http.Server{
