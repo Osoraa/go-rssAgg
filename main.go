@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -23,12 +24,22 @@ func main() {
 	// Create a router, server, and then listen
 	router := chi.NewRouter()
 
+	// Handle CORS
+	router.Use(cors.Handler(cors.Options{
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedOrigins: []string{"https://*", "http://*"},
+		ExposedHeaders: []string{"Link"},
+		AllowedHeaders: []string{"*"},
+		AllowCredentials: false,
+		MaxAge: 300,
+	}))
+
 	srv := &http.Server{
 		Handler: router,
 		Addr:	":" + portNum,
 	}
 
-	log.Printf("\nServer starting on port: %s", portNum)
+	log.Println("Server starting on port:", portNum)
 
 	err := srv.ListenAndServe()
 	if err != nil {
