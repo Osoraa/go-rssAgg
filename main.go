@@ -34,11 +34,18 @@ func main() {
 		MaxAge: 300,
 	}))
 
+	// Router to healthz
+	v1Router := chi.NewRouter()
+	v1Router.HandleFunc("/healthz", handlerReadiness)
+
+	router.Mount("/v1", v1Router)
+
 	srv := &http.Server{
 		Handler: router,
 		Addr:	":" + portNum,
 	}
 
+	// Log server start
 	log.Println("Server starting on port:", portNum)
 
 	err := srv.ListenAndServe()
